@@ -1,10 +1,3 @@
-﻿using DemoAttribute;
-using Incremental_Generator_Demo.Interfaces;
+﻿using TypedClient = Incremental_Generator_Demo.TypedClient;
 
-Console.WriteLine(new TypedClient());
-
-[TypedHubClient(typeof(IResponse))]
-public partial class TypedClient
-{
-    
-}
+TypedClient.Print();
