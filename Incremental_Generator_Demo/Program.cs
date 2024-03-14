@@ -1,4 +1,4 @@
-﻿using DemoAttirbute;
+﻿using DemoAttribute;
 using Incremental_Generator_Demo.Interfaces;
 
 Console.WriteLine(new TypedClient());

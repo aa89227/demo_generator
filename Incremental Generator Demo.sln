@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoGenerator", "DemoGenera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Incremental_Generator_Demo", "Incremental_Generator_Demo\Incremental_Generator_Demo.csproj", "{0B263AF7-BD2A-4EEF-914E-8CF39549864F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAttirbute", "DemoAttirbute\DemoAttirbute.csproj", "{4EB19DF7-4AE7-44F8-95A6-AFA93B0A1E0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoAttribute", "DemoAttribute\DemoAttribute.csproj", "{4EB19DF7-4AE7-44F8-95A6-AFA93B0A1E0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DemoAttirbute\DemoAttirbute.csproj" />
+      <ProjectReference Include="..\DemoAttribute\DemoAttribute.csproj" />
       <ProjectReference Include="..\DemoGenerator\DemoGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
