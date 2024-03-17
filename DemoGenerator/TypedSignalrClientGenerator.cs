@@ -26,20 +26,46 @@ public class TypedSignalrClientGenerator : IIncrementalGenerator
 
                   public partial class {{tuple.Name}}
                   {
-                     {{GenerateDelegates(tuple.InterfaceType)}}
+                  {{GenerateDelegates(tuple.Name, tuple.InterfaceType)}}
                   }
                   """);
         });
     }
 
-    private static string GenerateDelegates(INamedTypeSymbol tupleInterfaceType)
+    private static string GenerateDelegates(string className, INamespaceOrTypeSymbol tupleInterfaceType)
     {
+        var delegateAndCtor = GenerateDelegatesAndCtorBody(tupleInterfaceType);
         return $$"""
-                 public static void Print()
-                 {
-                     Console.WriteLine("{{tupleInterfaceType.Name}}");
-                 }
-                 """;
+               {{delegateAndCtor.eventAndDelegate}}
+                
+                   public {{className}}(HubConnection hubConnection)
+                   {
+                       {{delegateAndCtor.ctorBody}}
+                   }
+                
+               """;
+    }
+
+    private static (string eventAndDelegate, string ctorBody) GenerateDelegatesAndCtorBody(INamespaceOrTypeSymbol tupleInterfaceType)
+    {
+        return tupleInterfaceType.GetMembers()
+            .Where(x => x.Kind == SymbolKind.Method)
+            .Select(x => (IMethodSymbol)x)
+            .Select(x =>
+            {
+                var types = string.Join(",", x.Parameters.Select(p => p.Type));
+                var parametersInDelegate = string.Join(", ", x.Parameters.Select(p => $"{p.Type} {p.Name}"));
+                var parametersInOn = string.Join(", ", x.Parameters.Select(p => p.Name));
+                var action = $"({parametersInOn}) => {x.Name}Handler?.Invoke({parametersInOn})";
+                return (
+                    $"""
+                        public event {x.Name}Delegate? {x.Name}Handler;
+                        public delegate void {x.Name}Delegate({parametersInDelegate});
+                    
+                    """,
+                    $"hubConnection.On<{types}>(\"{x.Name}\", {action});\n\t\t");
+            })
+            .Aggregate((x, y) => (x.Item1 + y.Item1, x.Item2 + y.Item2));
     }
 
     private static (string Name, INamedTypeSymbol InterfaceType) TransformContext(GeneratorAttributeSyntaxContext ctx)
